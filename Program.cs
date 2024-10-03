@@ -1,4 +1,6 @@
 using ManagerLabs.Data;
+using ManagerLabs.Repository;
+using ManagerLabs.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddSwaggerGen();
 var connectionDb = builder.Configuration.GetConnectionString("MysqlConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
         options.UseMySql(connectionDb, ServerVersion.AutoDetect(connectionDb)));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 
